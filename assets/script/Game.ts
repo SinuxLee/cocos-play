@@ -82,6 +82,11 @@ class Tile {
     }
 }
 
+/**
+ * 地图相机为 透视相机可以调整视距
+ * UI相机为 正交相机，需要设置 clear_flag
+ */
+
 @ccclass('Game')
 export class Game extends Component {
     private _camera: Camera = null;
@@ -101,9 +106,9 @@ export class Game extends Component {
         this._uiTransform = this.node.addComponent(UITransform)
         this._uiTransform.setContentSize(1000, 1000)
 
-        const { width, height } = this._uiTransform
         this._gl = this.node.addComponent(Graphics)
         this._gl.lineWidth = 2
+        // const { width, height } = this._uiTransform
 
         // 设置白色背景
         // this._gl.strokeColor = Color.GRAY

@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, Node, EventTouch, Input, input, v3, math, EventMouse, log} from 'cc';
+import { _decorator, Camera, Component, Node, EventTouch, Input, input, v3, math, EventMouse, log, Layers} from 'cc';
 import {Game} from './Game'
 const { ccclass, property } = _decorator;
 
@@ -10,6 +10,7 @@ export class App extends Component {
 
     onLoad() {
         this._gameNode = new Node('game')
+        this._gameNode.layer = 1<<5
         this.node.addChild(this._gameNode)
 
         this._game = this._gameNode.addComponent(Game)
@@ -32,7 +33,7 @@ export class App extends Component {
     }
 
     onMouseWheel(event: EventMouse) {
-        const delta = event.getScrollY() * 0.01;
+        const delta = event.getScrollY() * -0.01;
         let fov = this._camera.fov + math.clamp(delta, -10, 10);
         this._camera.fov = math.clamp(fov, 30, 70);
     }

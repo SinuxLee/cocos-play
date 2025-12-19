@@ -21,10 +21,7 @@ CCEffect %{
       properties:
         startColor: { value: [1, 1, 1, 1], editor: { type: color } }  # 渐变起始色
         endColor:   { value: [1, 1, 1, 1], editor: { type: color } }  # 渐变结束色
-        horizontal: { value: 1 }                                      # 1=横向(x)渐变，0=纵向(y)渐变
-        time:       { value: 0 }                                      # 时间(秒)。你需要脚本每帧递增它
-        speed:      { value: 1 }                                      # 动画速度：sin(time*speed)
-        amplitude:  { value: 0.2 }                                    # 动态扰动幅度(0~1建议)
+        params:     { value: [1, 0, 1, 0.2] } # x=horizontal, y=time, z=speed, w=amplitude
 }%
 
 CCProgram vs %{
@@ -52,8 +49,7 @@ CCProgram vs %{
 
 CCProgram fs %{
   precision highp float;
-  // 提供 CCSampleWithAlphaSeparated，兼容分离 Alpha 纹理
-  #include <builtin/internal/embedded-alpha>
+  #include <builtin/internal/embedded-alpha> // 提供 CCSampleWithAlphaSeparated，兼容分离 Alpha 纹理
 
   in vec2 uv0;
   in vec4 color;
@@ -62,10 +58,7 @@ CCProgram fs %{
   uniform Constant {
     vec4 startColor;   // 渐变起始色
     vec4 endColor;     // 渐变结束色
-    float horizontal;  // 1: 用 uv.x；0: 用 uv.y
-    float time;        // 时间(秒)，外部脚本驱动
-    float speed;       // sin 速度系数
-    float amplitude;   // sin 扰动幅度
+    vec4 params; // x horizontal, y time, z speed, w amplitude
   };
 
   // Sprite 默认纹理采样器（引擎约定 binding）
@@ -73,17 +66,31 @@ CCProgram fs %{
   layout(set = 2, binding = 11) uniform sampler2D cc_spriteTexture;
 
   vec4 frag () {
+    float horizontal = params.x;
+    float time = params.y;
+    float speed = params.z;
+    float amplitude = params.w;
     // 采样 sprite 纹理（含分离 alpha 处理）
     vec4 tex = CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
 
-    // 用 sin(time) 做动态扰动
+    // 选择渐变方向：horizontal>=0.5 用 x，否则用 y
+    // float axis = mix(uv0.y, uv0.x, step(0.5, horizontal));
+
+    // 用 sin(time) 做动态扰动：
+    // 1) sin 输出 [-1,1]，映射到 [0,1]
+    // 2) amplitude 控制扰动强度
     float s = sin(time * speed);          // [-1, 1]
     float wobble = (s * 0.5 + 0.5);       // [0, 1]
+
+    // 将动态项叠加到 axis 上，并 clamp 保证仍在 [0,1]
+    // float t = clamp(axis + (wobble - 0.5) * 2.0 * amplitude, 0.0, 1.0);
 
     // 计算渐变颜色
     vec3 grad = mix(startColor.rgb, endColor.rgb, wobble);
 
     // 输出：纹理颜色 * 渐变 * 顶点色；alpha 保持为纹理alpha再乘顶点alpha
     return vec4(tex.rgb * grad, tex.a) * color;
+
+    // return vec4(tex.rgb, tex.a) * color; // 原样输出图片
   }
 }%

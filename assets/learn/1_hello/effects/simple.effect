@@ -76,12 +76,16 @@ CCProgram fs %{
     // 采样 sprite 纹理（含分离 alpha 处理）
     vec4 tex = CCSampleWithAlphaSeparated(cc_spriteTexture, uv0);
 
-    // 用 sin(time) 做动态扰动
-    float s = sin(time * speed);          // [-1, 1]
-    float wobble = (s * 0.5 + 0.5);       // [0, 1]
+    // 选用横/纵方向的 UV 作为渐变基准
+    float t = mix(uv0.y, uv0.x, horizontal);   // horizontal=0->y，1->x
+
+    // 时间扰动（幅度由 amplitude 控制）
+    float s = sin(time * speed);               // [-1, 1]
+    t += s * amplitude;                        // 扰动
+    t = abs(fract(t) * 2.0 - 1.0);             // ping-pong 循环
 
     // 计算渐变颜色
-    vec3 grad = mix(startColor.rgb, endColor.rgb, wobble);
+    vec3 grad = mix(startColor.rgb, endColor.rgb, t);
 
     // 输出：纹理颜色 * 渐变 * 顶点色；alpha 保持为纹理alpha再乘顶点alpha
     return vec4(tex.rgb * grad, tex.a) * color;

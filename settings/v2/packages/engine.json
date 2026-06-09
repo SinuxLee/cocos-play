@@ -181,7 +181,7 @@
           },
           "render-pipeline": {
             "_value": true,
-            "_option": "legacy-pipeline"
+            "_option": "custom-pipeline"
           },
           "custom-pipeline": {
             "_value": true
@@ -200,16 +200,17 @@
           "animation",
           "audio",
           "base",
+          "custom-pipeline",
           "dragon-bones",
           "gfx-webgl",
           "gfx-webgl2",
           "graphics",
           "intersection-2d",
-          "legacy-pipeline",
-          "light-probe",
+          "marionette",
           "mask",
           "particle-2d",
           "physics-2d-box2d",
+          "procedural-animation",
           "profiler",
           "rich-text",
           "spine-3.8",

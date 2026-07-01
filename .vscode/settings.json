@@ -7,5 +7,10 @@
     },
     "files.exclude": {
         "**/*.meta":true
+    },
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit", // 排序 + 去除未使用
+        "source.fixAll.eslint": "explicit",
+        "source.fixAll.pylance": "explicit",
     }
 }

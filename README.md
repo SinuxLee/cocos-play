@@ -60,3 +60,27 @@ runLibraryFunction();
 const after = process.memoryUsage().heapUsed;
 console.log("Memory delta:", (after - before)/1024, "KB");
 ```
+
+
+### 练习
+一些学习的项目
+
+#### 基础
+
+https://github.com/cocos/example-projects
+https://github.com/cocos/cocos-test-projects
+https://github.com/Leo501/CocosCreatorTutorial
+
+#### 小项目
+
+https://github.com/matchvs/AnimalChecker
+https://github.com/yl1033669613/game_with_cocosCreater
+https://github.com/Leo501/awesome-CocosCreator
+https://github.com/KuoKuo666/CocosCreator-Tetris
+
+#### 工程实践
+
+https://github.com/zhitaocai/CocosCreator-Build-Encrypt
+https://github.com/xiaocongcc/GameFramework
+https://github.com/potato47/so-many-games 适合大厅+字游戏
+配置生成 https://github.com/gh-kL/GameConfig

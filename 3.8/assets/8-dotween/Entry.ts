@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Sprite, tween, v3 } from 'cc';
+import { _decorator, Component, Node, tween, v3 } from 'cc';
 const { ccclass, property } = _decorator;
 
 @ccclass('Entry')
@@ -29,13 +29,6 @@ export class Entry extends Component {
         //     .delay(0.2)
         //     .to(0.3, { position: v3(0, 0, 0) }, { easing: 'bounceIn' })
         //     .start();
-
-        tween(this.icon.getComponent(Sprite))
-            .to(0.1, { opacity: 0 })
-            .to(0.1, { opacity: 255 })
-            .union()
-            .repeat(6)     // 闪烁3次（6个半周期）
-            .start();
     }
 }
 

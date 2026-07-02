@@ -1,8 +1,8 @@
 import { _decorator, Component, UITransform, view, Widget } from 'cc';
 const { ccclass, requireComponent } = _decorator;
 
-requireComponent(Widget)
 @ccclass('ScreenContentAdapter')
+@requireComponent(Widget)
 export class ScreenContentAdapter extends Component {
     private _widget: Widget = null!;
     protected onLoad(): void {

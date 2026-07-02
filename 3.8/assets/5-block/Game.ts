@@ -5,8 +5,10 @@ const { ccclass, property } = _decorator;
 export class Game extends Component {
     @property([SpriteFrame])
     public textureList: SpriteFrame[] = [];
+
     @property(Prefab)
     public blockPrefab: Prefab = null!;
+    
     @property(Prefab)
     public piecePrefab: Prefab = null!;
 

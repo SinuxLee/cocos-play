@@ -1,16 +1,6 @@
 import { _decorator, Component, Sprite, SpriteFrame } from 'cc';
+import { PieceType } from './types';
 const { ccclass, property } = _decorator;
-
-// 方块的形状
-export enum PieceType {
-    I = 0,
-    O = 1,
-    T = 2,
-    L = 3,
-    J = 4,
-    S = 5,
-    Z = 6,
-}
 
 // 旋转的方向
 export type Rot = 0 | 1 | 2 | 3;

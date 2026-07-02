@@ -1,11 +1,9 @@
 import { _decorator, Collider, Component, Node, UITransform, view, Widget } from 'cc';
 const { ccclass, property, requireComponent, executeInEditMode } = _decorator;
 
-
-requireComponent(Widget)
-requireComponent(Collider)
-executeInEditMode(true)
 @ccclass('Main')
+@requireComponent(Widget)
+@requireComponent(Collider)
 export class Main extends Component {
     @property(Node)
     private bg: Node = null!;
@@ -20,6 +18,10 @@ export class Main extends Component {
     start() {
         this.adaptContent();
         view.on('canvas-resize', this.adaptContent, this);
+    }
+
+    protected onEnable(): void {
+        console.debug("main enable in editor")
     }
 
     private adaptContent() {

@@ -1,0 +1,15 @@
+{
+  "__type__": "cc.Material",
+  "_name": "Avatar",
+  "_objFlags": 0,
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "4ac888f5-7a78-490e-b3ec-8d8fbcc84e75"
+  },
+  "_techniqueIndex": 0,
+  "_techniqueData": {
+    "0": {
+      "props": {}
+    }
+  }
+}

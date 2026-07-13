@@ -1,0 +1,81 @@
+CCEffect %{
+  techniques:
+  - name: opaque
+    passes:
+    - vert: sprite-vs:vert
+      frag: sprite-fs:frag
+      depthStencilState:
+        depthTest: false
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: src_alpha
+          blendDstAlpha: one_minus_src_alpha
+      properties:
+        mainTexture: { value: white, editor: { type: image } }
+        offset: { value: [0, 0], editor: { type: vec2 } }
+        texSize: { value: [10, 10], editor: { type: vec2 } }
+        edgePixel: { value: 0.0, editor: { type: float, range: [0, 5], step: 1 } }
+}%
+
+CCProgram sprite-vs %{
+  precision highp float;
+  #include <cc-global>
+  #include <cc-local>
+  
+  // Sprite 默认顶点输入：位置、UV、顶点色
+  in vec3 a_position;
+  in vec2 a_texCoord;
+  in vec4 a_color;
+  
+  // 传给片元着色器：UV 和 顶点色
+  out vec2 v_uv;
+  out vec4 v_color;
+  
+  vec4 vert () {
+    vec4 pos = vec4(a_position, 1.0);
+    #if CC_USE_MODEL
+    pos = cc_matWorld * pos;
+    #endif
+    pos = cc_matViewProj * pos;
+    v_uv = a_texCoord;
+    v_color = a_color;
+    return pos;
+  }
+}%
+
+CCProgram sprite-fs %{
+  precision highp float;
+  
+  in vec2 v_uv;
+  in vec4 v_color;
+  
+  // properties 里的参数会自动映射到这里
+  uniform sampler2D mainTexture;
+  uniform Constant {
+    vec2 offset;
+    vec2 texSize;
+    float edgePixel;
+  };
+  
+  vec4 frag () {
+    // return vec4(1.0, 0.0, 0.0, 1.0); // 调试用，判断 shader 是否执行
+    // return vec4(v_uv.x, v_uv.y, 0.0, 1.0); // 调试 UV 范围
+    // return texture(mainTexture, v_uv) * v_color; // 调试纹理采样
+
+    vec2 uv = v_uv;
+    uv.x = fract(v_uv.x + offset.x); // 只滚动 X 轴，Y 轴保持原样
+    
+    // 计算 1 像素对应的 UV 步长
+    float texel = 1.0 / texSize.x;
+    
+    // 把 UV 限制在 [edgePixel * texel, 1.0 - edgePixel * texel]
+    float margin = texel * edgePixel;
+    uv.x = clamp(uv.x, margin, 1.0 - margin);
+
+    return texture(mainTexture, uv) * v_color;
+  }
+}%

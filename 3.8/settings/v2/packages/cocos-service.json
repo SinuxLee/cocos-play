@@ -1,20 +1,31 @@
 {
-  "__version__": "3.0.9",
+  "__version__": "3.0.7",
   "game": {
-    "name": "未知游戏",
-    "app_id": "UNKNOW",
-    "c_id": "0"
+    "app_id": "604282522",
+    "c_id": "0",
+    "name": "Hoodle"
   },
   "appConfigMaps": [
     {
       "app_id": "UNKNOW",
       "config_id": "a3ec4d"
+    },
+    {
+      "app_id": "604282522",
+      "config_id": "04d73d"
     }
   ],
   "configs": [
     {
       "app_id": "UNKNOW",
       "config_id": "a3ec4d",
+      "config_name": "Default",
+      "config_remarks": "",
+      "services": []
+    },
+    {
+      "app_id": "604282522",
+      "config_id": "04d73d",
       "config_name": "Default",
       "config_remarks": "",
       "services": []

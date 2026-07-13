@@ -1,7 +1,8 @@
 import { _decorator, Component, renderer, Sprite } from 'cc';
-const { ccclass, property } = _decorator;
+const { ccclass, property,requireComponent } = _decorator;
 
 @ccclass('Script')
+@requireComponent(Sprite)
 export class Script extends Component {
     @property(Sprite)
     sprite: Sprite | null = null;

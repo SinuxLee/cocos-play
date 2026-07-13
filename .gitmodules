@@ -1,0 +1,3 @@
+[submodule "2.4/packages"]
+	path = 2.4/packages
+	url = https://github.com/SinuxLee/cocoscreator2.x-packages.git

@@ -1,0 +1,17 @@
+{
+  "name": "cocos-native-build",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "description": "Cocos Creator 2.4 native 打包脚本（android / ios+mac / windows）",
+  "scripts": {
+    "build:android": "zx build-android.mjs",
+    "build:ios": "zx build-ios.mjs --target=ios",
+    "build:mac": "zx build-ios.mjs --target=mac",
+    "build:windows": "zx build-windows.mjs debug"
+  },
+  "dependencies": {
+    "zx": "^8.1.0",
+    "dotenv": "^16.4.5"
+  }
+}

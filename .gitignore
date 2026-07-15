@@ -15,3 +15,6 @@ native
 *.zip
 
 .idea/
+
+# local env config — machine-specific, never commit
+**/native-build/.env

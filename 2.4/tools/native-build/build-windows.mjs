@@ -143,7 +143,7 @@ if (!(await fs.pathExists(outputDir))) {
 }
 
 step('清理中间产物');
-const intermediateExts = new Set(['.obj', '.ilk', '.idb', '.iobj', '.ipdb', '.pch', '.tlog', '.lastbuildstate', '.cache']);
+const intermediateExts = new Set(['.obj', '.lib', '.ilk', '.idb', '.iobj', '.ipdb', '.pch', '.tlog', '.lastbuildstate', '.cache']);
 async function cleanIntermediates(dir) {
   for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name);
